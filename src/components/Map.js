@@ -4,12 +4,15 @@ import GoogleMapReact from 'google-map-react';
 import LocationInfoBox from './LocationInfoBox';
 import LocationMarker from './LocationMarker';
 
+const MAP_KEY = process.env.REACT_APP_GOOGLE_MAP_KEY;
+
 const Map = ({ eventData, center, zoom }) => {
     const [locationInfo, setLocationInfo] = useState(null);
 
     const markers = eventData.map((ev) => {
         if (ev.categories[0].id === 8) {
-            return <LocationMarker 
+            return <LocationMarker
+                        key={ev.id}
                         lat={ev.geometries[0].coordinates[1]} 
                         lng={ev.geometries[0].coordinates[0]} 
                         onClick={() => setLocationInfo({ id: ev.id, title: ev.title })} 
@@ -21,7 +24,7 @@ const Map = ({ eventData, center, zoom }) => {
     return (
     <div className='map'>
         <GoogleMapReact 
-            bootstrapURLKeys={{ key: 'Place API here' }}
+            bootstrapURLKeys={{ key: `${MAP_KEY}` }}
             defaultCenter={ center }
             defaultZoom={ zoom } 
         >
